@@ -11,7 +11,7 @@ class MessagesGroup extends StatelessWidget {
     this.onDeleteMess,
     this.onEditMess,
     this.onRecallMess,
-    this.onFalseRecallMess,
+    this.onUnRecallMess,
     this.isMe = false,
     this.isRecall = false,
   });
@@ -22,7 +22,7 @@ class MessagesGroup extends StatelessWidget {
   final Function(BuildContext)? onDeleteMess;
   final Function(BuildContext)? onEditMess;
   final Function(BuildContext)? onRecallMess;
-  final Function(BuildContext)? onFalseRecallMess;
+  final Function(BuildContext)? onUnRecallMess;
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +151,7 @@ class MessagesGroup extends StatelessWidget {
           icon: Icons.delete,
         ),
         SlidableAction(
-          onPressed: onFalseRecallMess,
+          onPressed: onUnRecallMess,
           backgroundColor: Colors.orange,
           foregroundColor: Colors.white,
           icon: Icons.beach_access,

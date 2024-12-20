@@ -5,6 +5,9 @@ import 'package:vtinter_chat/services/local/shared_prefs.dart';
 
 class DrawerMainController extends GetxController {
 
+  void navigaToProfile() {
+    Get.toNamed(PageName.profilePage);
+  }
 
   Future<void> submitLogOut(context) async {
     await FirebaseAuth.instance.signOut();

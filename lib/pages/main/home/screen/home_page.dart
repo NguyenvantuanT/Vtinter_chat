@@ -1,55 +1,24 @@
 import 'dart:async';
 
-import 'package:vtinter_chat/components/app_dialog.dart';
+import 'package:get/get.dart';
 import 'package:vtinter_chat/models/messager_model.dart';
-import 'package:vtinter_chat/pages/main/widgets/messages_group.dart';
+import 'package:vtinter_chat/pages/main/home/controller/home_controller.dart';
+import 'package:vtinter_chat/pages/main/home/widgets/messages_group.dart';
 import 'package:vtinter_chat/services/local/shared_prefs.dart';
-import 'package:vtinter_chat/services/remote/mess_services.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final messageController = TextEditingController();
-  ScrollController scrollController = ScrollController();
-  MessServices messServices = MessServices();
-  FocusNode messFocus = FocusNode();
-
-  void _scrollScreen() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent + 100.0,
-      duration: const Duration(milliseconds: 2600),
-      curve: Curves.easeOut,
-    );
-  }
-
-  final Stream<QuerySnapshot> messStream = FirebaseFirestore.instance
-      .collection('database')
-      .orderBy('id', descending: true)
-      .snapshots();
-
-  void _sendMessage() {
-    MessagerModel mess = MessagerModel()
-      ..avatar = SharedPrefs.user?.avatar
-      ..createBy = SharedPrefs.user?.email
-      ..id = '${DateTime.now().millisecondsSinceEpoch}'
-      ..text = messageController.text.trim()
-      ..isRecalled = false;
-    _scrollScreen();
-    messServices.addMess(mess);
-    messageController.clear();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot> messStream = FirebaseFirestore.instance
+        .collection('database')
+        .orderBy('id', descending: true)
+        .snapshots();
     return Scaffold(
       backgroundColor: AppColor.bgColor,
       body: Column(
@@ -74,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                     [];
                 return SlidableAutoCloseBehavior(
                   child: ListView.separated(
-                    controller: scrollController,
+                    controller: controller.scrollController,
                     padding: const EdgeInsets.symmetric(horizontal: 16.0)
                         .copyWith(top: 16.0, bottom: 20.0),
                     itemCount: messagers.length,
@@ -87,20 +56,10 @@ class _HomePageState extends State<HomePage> {
                         mess,
                         isMe: isMe,
                         isRecall: isRecall,
-                        onDeleteMess: (context) {
-                          messServices.deleteMes(mess.docId ?? "");
-                        },
-                        onEditMess: (context) async {
-                          mess = await AppDialog.editMess(context, mess);
-                          messServices.updateMess(mess);
-                          messFocus.unfocus();
-                        },
-                        onFalseRecallMess: (context) {
-                          messServices.updateMess(mess..isRecalled = false);
-                        },
-                        onRecallMess: (context) {
-                          messServices.updateMess(mess..isRecalled = true);
-                        },
+                        onDeleteMess: (_) => controller.delete(mess.docId),
+                        onEditMess: (_) => controller.editMess(context, mess),
+                        onUnRecallMess: (_) => controller.unRecallMess(mess),
+                        onRecallMess: (_) => controller.reCall(mess),
                       );
                     },
                   ),
@@ -115,11 +74,11 @@ class _HomePageState extends State<HomePage> {
           horizontal: 16.0,
         ).copyWith(bottom: MediaQuery.of(context).viewInsets.bottom + 24.0),
         child: TextField(
-          controller: messageController,
-          focusNode: messFocus,
+          controller: controller.messageController,
+          focusNode: controller.messFocus,
           onTap: () => Timer(
             const Duration(milliseconds: 600),
-            () => _scrollScreen(),
+            () => controller.scrollScreen(),
           ),
           style: const TextStyle(color: AppColor.orange),
           decoration: InputDecoration(
@@ -134,7 +93,7 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(24.0),
             ),
             suffixIcon: GestureDetector(
-              onTap: _sendMessage,
+              onTap: controller.sendMessage,
               child: const Icon(Icons.send, color: Colors.brown),
             ),
           ),

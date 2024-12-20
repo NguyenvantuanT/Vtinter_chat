@@ -14,7 +14,7 @@ class SplashController extends GetxController {
   void _checkStatus() {
     Timer(const Duration(milliseconds: 2600), () {
       if (SharedPrefs.isLogin) {
-        Get.offAllNamed(PageName.loginPage);
+        Get.offAllNamed(PageName.mainPage);
       } else {
         Get.offAllNamed(PageName.loginPage);
       }

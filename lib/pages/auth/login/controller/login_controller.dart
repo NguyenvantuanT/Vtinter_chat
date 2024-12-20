@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:vtinter_chat/components/delight_toast_show.dart';
-import 'package:vtinter_chat/pages/main/home/screen/home_page.dart';
-import 'package:vtinter_chat/pages/main_page.dart';
 import 'package:vtinter_chat/routes/app_routes.dart';
 import 'package:vtinter_chat/services/remote/account_services.dart';
 import 'package:vtinter_chat/services/remote/auth_services.dart';
@@ -37,24 +34,14 @@ class LoginController extends GetxController {
     authServices.login(body).then((_) {
       accountServices.getUser(body.email ?? '').then((_) {
         if (!context.mounted) return;
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => const HomePage(),
-          ),
-          (route) => false,
-        );
+        Get.offNamed(PageName.mainPage);
       }).catchError((onError) {});
     }).catchError((onError) {
       if (!context.mounted) return;
       DelightToastShow.showToast(context: context, text: "Lofgin fail");
       accountServices.getUser(body.email ?? '').then((_) {
         if (!context.mounted) return;
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => const MainPage(),
-          ),
-          (route) => false,
-        );
+        Get.offNamed(PageName.mainPage);
       }).catchError((onError) {});
     }).whenComplete(() => isLoading.value = true);
   }
