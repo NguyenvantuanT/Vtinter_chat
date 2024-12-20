@@ -2,16 +2,16 @@ import 'dart:io';
 import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/components/button/app_elevated_button.dart';
-import 'package:chat_app/components/delight_toast_show.dart';
-import 'package:chat_app/components/text_field/app_text_field.dart';
-import 'package:chat_app/models/user_model.dart';
-import 'package:chat_app/pages/main_page.dart';
-import 'package:chat_app/services/local/shared_prefs.dart';
-import 'package:chat_app/services/remote/account_services.dart';
-import 'package:chat_app/services/remote/storage_services.dart';
-import 'package:chat_app/themes/app_colors.dart';
-import 'package:chat_app/utils/validator.dart';
+import 'package:vtinter_chat/components/button/app_elevated_button.dart';
+import 'package:vtinter_chat/components/delight_toast_show.dart';
+import 'package:vtinter_chat/components/text_field/app_text_field.dart';
+import 'package:vtinter_chat/models/user_model.dart';
+import 'package:vtinter_chat/pages/main_page.dart';
+import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/remote/account_services.dart';
+import 'package:vtinter_chat/services/remote/storage_services.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

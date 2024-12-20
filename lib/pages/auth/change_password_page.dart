@@ -1,12 +1,12 @@
-import 'package:chat_app/components/button/app_elevated_button.dart';
-import 'package:chat_app/components/delight_toast_show.dart';
-import 'package:chat_app/components/text_field/app_text_field_password.dart';
-import 'package:chat_app/pages/auth/login_page.dart';
-import 'package:chat_app/services/local/shared_prefs.dart';
-import 'package:chat_app/services/remote/auth_services.dart';
-import 'package:chat_app/services/remote/body/change_password_body.dart';
-import 'package:chat_app/themes/app_colors.dart';
-import 'package:chat_app/utils/validator.dart';
+import 'package:vtinter_chat/components/button/app_elevated_button.dart';
+import 'package:vtinter_chat/components/delight_toast_show.dart';
+import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
+import 'package:vtinter_chat/pages/auth/login_page.dart';
+import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/remote/auth_services.dart';
+import 'package:vtinter_chat/services/remote/body/change_password_body.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordPage extends StatefulWidget {

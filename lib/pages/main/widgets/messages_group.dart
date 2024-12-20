@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/models/messager_model.dart';
-import 'package:chat_app/themes/app_colors.dart';
+import 'package:vtinter_chat/models/messager_model.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

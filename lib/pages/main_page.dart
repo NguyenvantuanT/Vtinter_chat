@@ -1,9 +1,9 @@
-import 'package:chat_app/components/app_tab_bar.dart';
-import 'package:chat_app/components/app_zoom_drawer.dart';
-import 'package:chat_app/pages/main/drawer_page.dart';
-import 'package:chat_app/pages/main/home_page.dart';
-import 'package:chat_app/services/local/shared_prefs.dart';
-import 'package:chat_app/themes/app_colors.dart';
+import 'package:vtinter_chat/components/app_tab_bar.dart';
+import 'package:vtinter_chat/components/app_zoom_drawer.dart';
+import 'package:vtinter_chat/pages/main/drawer_page.dart';
+import 'package:vtinter_chat/pages/main/home_page.dart';
+import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 

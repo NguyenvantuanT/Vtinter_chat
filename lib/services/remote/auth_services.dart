@@ -1,8 +1,8 @@
-import 'package:chat_app/models/user_model.dart';
-import 'package:chat_app/services/remote/body/change_password_body.dart';
-import 'package:chat_app/services/remote/body/forgot_password_body.dart';
-import 'package:chat_app/services/remote/body/login_body.dart';
-import 'package:chat_app/services/remote/body/resigter_body.dart';
+import 'package:vtinter_chat/models/user_model.dart';
+import 'package:vtinter_chat/services/remote/body/change_password_body.dart';
+import 'package:vtinter_chat/services/remote/body/forgot_password_body.dart';
+import 'package:vtinter_chat/services/remote/body/login_body.dart';
+import 'package:vtinter_chat/services/remote/body/resigter_body.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

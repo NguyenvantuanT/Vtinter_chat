@@ -1,16 +1,16 @@
-import 'package:chat_app/components/button/app_elevated_button.dart';
-import 'package:chat_app/components/delight_toast_show.dart';
-import 'package:chat_app/components/text_field/app_text_field.dart';
-import 'package:chat_app/components/text_field/app_text_field_password.dart';
-import 'package:chat_app/pages/auth/forgot_password_page.dart';
-import 'package:chat_app/pages/auth/sign_up_page.dart';
-import 'package:chat_app/pages/main/home_page.dart';
-import 'package:chat_app/pages/main_page.dart';
-import 'package:chat_app/services/remote/account_services.dart';
-import 'package:chat_app/services/remote/auth_services.dart';
-import 'package:chat_app/services/remote/body/login_body.dart';
-import 'package:chat_app/themes/app_colors.dart';
-import 'package:chat_app/utils/validator.dart';
+import 'package:vtinter_chat/components/button/app_elevated_button.dart';
+import 'package:vtinter_chat/components/delight_toast_show.dart';
+import 'package:vtinter_chat/components/text_field/app_text_field.dart';
+import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
+import 'package:vtinter_chat/pages/auth/forgot_password_page.dart';
+import 'package:vtinter_chat/pages/auth/sign_up_page.dart';
+import 'package:vtinter_chat/pages/main/home_page.dart';
+import 'package:vtinter_chat/pages/main_page.dart';
+import 'package:vtinter_chat/services/remote/account_services.dart';
+import 'package:vtinter_chat/services/remote/auth_services.dart';
+import 'package:vtinter_chat/services/remote/body/login_body.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {

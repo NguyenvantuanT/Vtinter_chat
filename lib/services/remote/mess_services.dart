@@ -1,5 +1,5 @@
 import 'dart:developer' as dev;
-import 'package:chat_app/models/messager_model.dart';
+import 'package:vtinter_chat/models/messager_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class ImplMessServices {

@@ -1,5 +1,5 @@
-import 'package:chat_app/models/user_model.dart';
-import 'package:chat_app/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/models/user_model.dart';
+import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class ImplAccountServices {

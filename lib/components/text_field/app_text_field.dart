@@ -1,4 +1,4 @@
-import 'package:chat_app/themes/app_colors.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:chat_app/pages/auth/login_page.dart';
-import 'package:chat_app/pages/main_page.dart';
-import 'package:chat_app/services/local/shared_prefs.dart';
-import 'package:chat_app/themes/app_colors.dart';
+import 'package:vtinter_chat/pages/auth/login_page.dart';
+import 'package:vtinter_chat/pages/main_page.dart';
+import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 

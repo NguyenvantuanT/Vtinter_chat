@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:chat_app/models/user_model.dart';
+import 'package:vtinter_chat/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {

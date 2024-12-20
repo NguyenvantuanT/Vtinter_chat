@@ -1,3 +1,3 @@
-# chat_app
+# vtinter_chat
 
 A new Flutter project.
