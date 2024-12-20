@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:vtinter_chat/components/app_avatar.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTabBar extends StatelessWidget implements PreferredSizeWidget {

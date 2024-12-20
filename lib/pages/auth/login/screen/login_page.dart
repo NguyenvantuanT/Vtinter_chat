@@ -1,70 +1,17 @@
+import 'package:get/get.dart';
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
-import 'package:vtinter_chat/components/delight_toast_show.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
-import 'package:vtinter_chat/pages/auth/forgot_password_page.dart';
-import 'package:vtinter_chat/pages/auth/sign_up_page.dart';
-import 'package:vtinter_chat/pages/main/home_page.dart';
-import 'package:vtinter_chat/pages/main_page.dart';
-import 'package:vtinter_chat/services/remote/account_services.dart';
-import 'package:vtinter_chat/services/remote/auth_services.dart';
-import 'package:vtinter_chat/services/remote/body/login_body.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/pages/auth/forgotPassword/screen/forgot_password_page.dart';
+import 'package:vtinter_chat/pages/auth/login/controller/login_controller.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key, this.email});
+
   final String? email;
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-  AuthServices authServices = AuthServices();
-  AccountServices accountServices = AccountServices();
-  bool isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    emailController.text = widget.email ?? '';
-  }
-
-  Future<void> _submitLogin(BuildContext context) async {
-    if (formKey.currentState?.validate() == false) return;
-    setState(() => isLoading = true);
-    LoginBody body = LoginBody()
-      ..email = emailController.text.trim()
-      ..password = passController.text.trim();
-
-    authServices.login(body).then((_) {
-      accountServices.getUser(body.email ?? '').then((_) {
-        if (!context.mounted) return;
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => const HomePage(),
-          ),
-          (route) => false,
-        );
-      }).catchError((onError) {});
-    }).catchError((onError) {
-      if (!context.mounted) return;
-      DelightToastShow.showToast(context: context, text: "Lofgin fail");
-      accountServices.getUser(body.email ?? '').then((_) {
-        if (!context.mounted) return;
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => const MainPage(),
-          ),
-          (route) => false,
-        );
-      }).catchError((onError) {});
-    }).whenComplete(() => setState(() => isLoading = true));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +37,17 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               _formLogin(context),
               const SizedBox(height: 10),
-              _forgotPassword(),
+              _forgotPassword(context),
               const SizedBox(height: 20),
-              AppElevatedButton(
-                text: "Login",
-                isDisable: isLoading,
-                onPressed: isLoading ? null : () => _submitLogin(context),
-              ),
+              Obx(() {
+                return AppElevatedButton(
+                  text: "Login",
+                  isDisable: controller.isLoading.value,
+                  onPressed: controller.isLoading.value
+                      ? null
+                      : () => controller.submitLogin(context),
+                );
+              }),
               const SizedBox(height: 10),
               _linkSignUp(context),
             ],
@@ -112,8 +63,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         const Text("Don't have accout"),
         GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const SignUpPage())),
+          onTap: controller.submidForgotPasswordPage,
           behavior: HitTestBehavior.translucent,
           child: const Padding(
             padding: EdgeInsets.all(4.0),
@@ -127,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _forgotPassword() {
+  Widget _forgotPassword(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -151,23 +101,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _formLogin(BuildContext context) {
     return Form(
-      key: formKey,
+      key: controller.formKey,
       child: Column(
         children: [
           AppTextField(
-            controller: emailController,
+            controller: controller.emailController,
             hintText: "Email",
             textInputAction: TextInputAction.next,
             validator: Validator.required,
-            // validator: email,
           ),
           const SizedBox(height: 20),
           AppTextFieldPassword(
-            controller: passController,
+            controller: controller.passController,
             hintText: "Pass",
             textInputAction: TextInputAction.done,
             validator: Validator.password,
-            onFieldSubmitted: (_) => _submitLogin(context),
+            onFieldSubmitted: (_) => controller.submitLogin(context),
           ),
         ],
       ),

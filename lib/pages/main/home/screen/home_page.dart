@@ -5,7 +5,7 @@ import 'package:vtinter_chat/models/messager_model.dart';
 import 'package:vtinter_chat/pages/main/widgets/messages_group.dart';
 import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/services/remote/mess_services.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

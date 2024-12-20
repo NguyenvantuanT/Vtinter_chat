@@ -1,4 +1,4 @@
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';

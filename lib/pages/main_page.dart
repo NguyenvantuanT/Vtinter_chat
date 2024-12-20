@@ -1,26 +1,15 @@
+import 'package:get/get.dart';
 import 'package:vtinter_chat/components/app_tab_bar.dart';
 import 'package:vtinter_chat/components/app_zoom_drawer.dart';
-import 'package:vtinter_chat/pages/main/drawer_page.dart';
-import 'package:vtinter_chat/pages/main/home_page.dart';
+import 'package:vtinter_chat/pages/main/drawer/screen/drawer_page.dart';
+import 'package:vtinter_chat/pages/main/home/screen/home_page.dart';
+import 'package:vtinter_chat/pages/main_page_controller.dart';
 import 'package:vtinter_chat/services/local/shared_prefs.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
-class MainPage extends StatefulWidget {
+class MainPage extends GetView<MainPageController> {
   const MainPage({super.key});
-
-  @override
-  State<MainPage> createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  final zoomDrawerController = ZoomDrawerController();
-
-  toggleDrawer() {
-    zoomDrawerController.toggle?.call();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +18,13 @@ class _MainPageState extends State<MainPage> {
       child: Scaffold(
         backgroundColor: AppColor.white,
         appBar: AppTabBar(
-          leftPressed: toggleDrawer,
+          leftPressed: controller.toggleDrawer,
           rightPressed: () {},
           title: "Home",
           avatar: SharedPrefs.user?.avatar ?? '',
         ),
         body: AppZoomDrawer(
-          controller: zoomDrawerController,
+          controller: controller.zoomDrawerController.value,
           menuScreen: const DrawerPage(),
           screen: const HomePage(),
         ),

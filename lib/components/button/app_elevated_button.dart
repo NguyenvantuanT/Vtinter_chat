@@ -1,4 +1,4 @@
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppElevatedButton extends StatelessWidget {

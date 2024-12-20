@@ -1,27 +1,21 @@
+import 'package:get/get.dart';
 import 'package:vtinter_chat/components/app_dialog.dart';
 import 'package:vtinter_chat/pages/auth/change_password_page.dart';
-import 'package:vtinter_chat/pages/auth/login_page.dart';
+import 'package:vtinter_chat/pages/main/drawer/controller/drawer_controller.dart';
 import 'package:vtinter_chat/pages/profile/profile_page.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../services/local/shared_prefs.dart';
+import '../../../../services/local/shared_prefs.dart';
 
-class DrawerPage extends StatefulWidget {
+class DrawerPage extends GetView<DrawerMainController> {
   const DrawerPage({super.key});
 
-  @override
-  State<DrawerPage> createState() => _DrawerPageState();
-}
-
-class _DrawerPageState extends State<DrawerPage> {
   @override
   Widget build(BuildContext context) {
     const iconSize = 18.0;
     const iconColor = AppColor.orange;
     const spacer = 6.0;
     const textStyle = TextStyle(color: AppColor.brown, fontSize: 16.0);
-
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, bottom: 32.0),
       child: Column(
@@ -39,8 +33,8 @@ class _DrawerPageState extends State<DrawerPage> {
           const SizedBox(height: 18.0),
           GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ProfilePage())),
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ProfilePage())),
             child: const Row(
               children: [
                 Icon(Icons.person, size: iconSize, color: iconColor),
@@ -52,7 +46,7 @@ class _DrawerPageState extends State<DrawerPage> {
           const SizedBox(height: 18.0),
           GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: ()=> Navigator.of(context).push(MaterialPageRoute(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ChangePasswordPage())),
             child: const Row(
               children: [
@@ -73,18 +67,7 @@ class _DrawerPageState extends State<DrawerPage> {
               context,
               title: const Text('😍'),
               content: 'Do you want to logout?',
-              action: () async {
-                await FirebaseAuth.instance.signOut();
-                await SharedPrefs.removeSeason();
-                if (context.mounted) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (_) => const LoginPage(),
-                    ),
-                    (Route<dynamic> route) => false,
-                  );
-                }
-              },
+              action: () => controller.submitLogOut(context),
             ),
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,

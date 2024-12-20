@@ -1,11 +1,11 @@
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
 import 'package:vtinter_chat/components/delight_toast_show.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
-import 'package:vtinter_chat/pages/auth/login_page.dart';
+import 'package:vtinter_chat/pages/auth/login/screen/login_page.dart';
 import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/services/remote/auth_services.dart';
 import 'package:vtinter_chat/services/remote/body/change_password_body.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +44,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) => LoginPage(email: body.email)),
+                builder: (context) => LoginPage(email:body.email)),
             (Route<dynamic> route) => false);
       } else {
         setState(() => isLoading = false);

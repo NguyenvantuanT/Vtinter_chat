@@ -1,6 +1,6 @@
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
 import 'package:vtinter_chat/models/messager_model.dart';
-import 'package:vtinter_chat/themes/app_colors.dart';
+import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

@@ -1,5 +1,6 @@
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:vtinter_chat/firebase_options.dart';
-import 'package:vtinter_chat/pages/splash/splash_page.dart';
+import 'package:vtinter_chat/routes/app_routes.dart';
 import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,16 +17,18 @@ void main() async {
     statusBarIconBrightness: Brightness.dark,
   ));
   await SharedPrefs.initialise();
-  runApp(const MainApp());
+  runApp(const MainApp(initialRoute: PageName.splashPage));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final String initialRoute;
+  const MainApp({super.key, required this.initialRoute});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashPage()
+      getPages: AppRoutes.routes,
+      initialRoute: initialRoute,
     );
   }
 }
