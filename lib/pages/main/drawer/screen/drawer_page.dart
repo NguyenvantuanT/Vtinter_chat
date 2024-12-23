@@ -1,10 +1,8 @@
 import 'package:get/get.dart';
 import 'package:vtinter_chat/components/app_dialog.dart';
-import 'package:vtinter_chat/pages/auth/change_password_page.dart';
 import 'package:vtinter_chat/pages/main/drawer/controller/drawer_controller.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:vtinter_chat/routes/app_routes.dart';
 import '../../../../services/local/shared_prefs.dart';
 
 class DrawerPage extends GetView<DrawerMainController> {
@@ -33,7 +31,7 @@ class DrawerPage extends GetView<DrawerMainController> {
           const SizedBox(height: 18.0),
           GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () => Get.toNamed(PageName.profilePage),
+            onTap: controller.navigaToProfile,
             child: const Row(
               children: [
                 Icon(Icons.person, size: iconSize, color: iconColor),
@@ -45,8 +43,7 @@ class DrawerPage extends GetView<DrawerMainController> {
           const SizedBox(height: 18.0),
           GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const ChangePasswordPage())),
+            onTap: controller.navigaToChangePass,
             child: const Row(
               children: [
                 Icon(Icons.lock_outline, size: iconSize, color: iconColor),

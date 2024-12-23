@@ -13,15 +13,19 @@ class LoginController extends GetxController {
   AuthServices authServices = AuthServices();
   AccountServices accountServices = AccountServices();
   RxBool isLoading = false.obs;
-
+  final arguments = Get.arguments as Map? ?? {};
   @override
   void onInit() {
     super.onInit();
-    emailController.text = Get.arguments ?? '';
+    emailController.text = arguments['email'] ?? '';
   }
 
-  void submidForgotPasswordPage() {
+  void navigaToForgotPasswordPage() {
     Get.toNamed(PageName.forgotPasswordPage);
+  }
+
+   void navigaToRegisterPage() {
+    Get.toNamed(PageName.registerPage);
   }
 
   Future<void> submitLogin(BuildContext context) async {
@@ -34,14 +38,14 @@ class LoginController extends GetxController {
     authServices.login(body).then((_) {
       accountServices.getUser(body.email ?? '').then((_) {
         if (!context.mounted) return;
-        Get.offNamed(PageName.mainPage);
+        Get.offAllNamed(PageName.mainPage);
       }).catchError((onError) {});
     }).catchError((onError) {
       if (!context.mounted) return;
       DelightToastShow.showToast(context: context, text: "Lofgin fail");
       accountServices.getUser(body.email ?? '').then((_) {
         if (!context.mounted) return;
-        Get.offNamed(PageName.mainPage);
+        Get.offAllNamed(PageName.mainPage);
       }).catchError((onError) {});
     }).whenComplete(() => isLoading.value = true);
   }

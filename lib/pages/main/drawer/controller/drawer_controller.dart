@@ -9,10 +9,14 @@ class DrawerMainController extends GetxController {
     Get.toNamed(PageName.profilePage);
   }
 
+  void navigaToChangePass() {
+    Get.toNamed(PageName.changePasswordPage);
+  }
+
   Future<void> submitLogOut(context) async {
     await FirebaseAuth.instance.signOut();
     await SharedPrefs.removeSeason();
     if (!context.mounted) return;
-    Get.offNamed(PageName.loginPage);
+    Get.offAllNamed(PageName.loginPage);
   }
 }

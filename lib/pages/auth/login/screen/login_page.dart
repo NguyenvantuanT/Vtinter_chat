@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
-import 'package:vtinter_chat/pages/auth/forgotPassword/screen/forgot_password_page.dart';
 import 'package:vtinter_chat/pages/auth/login/controller/login_controller.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:vtinter_chat/utils/validator.dart';
@@ -63,7 +62,7 @@ class LoginPage extends GetView<LoginController> {
       children: [
         const Text("Don't have accout"),
         GestureDetector(
-          onTap: controller.submidForgotPasswordPage,
+          onTap: controller.navigaToRegisterPage,
           behavior: HitTestBehavior.translucent,
           child: const Padding(
             padding: EdgeInsets.all(4.0),
@@ -82,10 +81,7 @@ class LoginPage extends GetView<LoginController> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         GestureDetector(
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
-          ),
+          onTap: controller.navigaToForgotPasswordPage,
           behavior: HitTestBehavior.translucent,
           child: const Padding(
             padding: EdgeInsets.all(4.0),

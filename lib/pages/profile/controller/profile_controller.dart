@@ -17,8 +17,8 @@ class ProfileController extends GetxController {
   StorageServices postImageServices = StorageServices();
   AccountServices accountServices = AccountServices();
   ImagePicker picker = ImagePicker();
-
-  File? fileAvatar;
+  final formKey = GlobalKey<FormState>();
+  Rx<File?> fileAvatar = Rx<File?>(null);
   RxBool isLoading = false.obs;
   RxBool isButtonEnable = true.obs;
   dynamic user = SharedPrefs.user ?? UserModel();
@@ -27,25 +27,34 @@ class ProfileController extends GetxController {
   void onInit() {
     super.onInit();
     nameController = TextEditingController(text: user.name)
-      ..addListener(() => isButtonEnable.value = false);
+      ..addListener(checkFormChanged);
     emailController = TextEditingController(text: user.email);
   }
 
+  void checkFormChanged() {
+  isButtonEnable.value = 
+    nameController.text != user.name ||
+    emailController.text != user.email ||
+    fileAvatar.value != null;
+}
+
   Future<void> pickAvatar() async {
-    XFile? result = await picker.pickImage(source: ImageSource.gallery);
-    if (result == null) return;
-    fileAvatar = File(result.path);
+    final XFile? file = await picker.pickImage(source: ImageSource.gallery);
+    if (file == null) return;
+    fileAvatar.value = File(file.path);
   }
 
   Future<void> updateProfile(BuildContext context) async {
+    if (formKey.currentState?.validate() == false) return;
     isLoading.value = true;
-    await Future.delayed(const Duration(milliseconds: 1000));
+    String? avatarUrl;
+    if (fileAvatar.value != null) {
+      avatarUrl = await postImageServices.post(image: fileAvatar.value!);
+    }
     final body = UserModel()
       ..name = nameController.text.trim()
       ..email = emailController.text.trim()
-      ..avatar = fileAvatar != null
-          ? await postImageServices.post(image: fileAvatar!)
-          : SharedPrefs.user?.avatar ?? "";
+      ..avatar = avatarUrl;
     accountServices.updateUser(body).then((_) {
       SharedPrefs.user = body;
       if (!context.mounted) return;
@@ -53,7 +62,7 @@ class ProfileController extends GetxController {
         context: context,
         text: 'Profile has been saved 😍',
       );
-      Get.toNamed(PageName.mainPage);
+      Get.offNamed(PageName.mainPage);
     }).catchError((onError) {
       dev.log("Failed to update Profile: $onError");
       if (!context.mounted) return;

@@ -1,80 +1,15 @@
-import 'dart:io';
-import 'dart:developer' as dev;
-
+import 'package:get/get.dart';
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
-import 'package:vtinter_chat/components/delight_toast_show.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
 import 'package:vtinter_chat/pages/auth/login/screen/login_page.dart';
-import 'package:vtinter_chat/services/remote/auth_services.dart';
-import 'package:vtinter_chat/services/remote/body/resigter_body.dart';
-import 'package:vtinter_chat/services/remote/storage_services.dart';
+import 'package:vtinter_chat/pages/auth/register/controller/register_controller.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
-
-  @override
-  State<SignUpPage> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPassController = TextEditingController();
-  StorageServices postImageServices = StorageServices();
-  AuthServices authServices = AuthServices();
-
-  ImagePicker picker = ImagePicker();
-  final formKey = GlobalKey<FormState>();
-  bool isLoading = false;
-  File? fileAvatar;
-
-  Future<void> getImageFromGallery() async {
-    final XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    if (file == null) return;
-    fileAvatar = File(file.path);
-    setState(() {});
-  }
-
-  Future<void> onSubmit(BuildContext context) async {
-    if (formKey.currentState?.validate() == false) return;
-    setState(() => isLoading = true);
-    ResigterBody body = ResigterBody()
-      ..name = usernameController.text.trim()
-      ..email = emailController.text.trim()
-      ..password = emailController.text.trim()
-      ..confirmPass = confirmPassController.text.trim()
-      ..avatar = fileAvatar != null
-          ? await postImageServices.post(image: fileAvatar!)
-          : null;
-    authServices.resigter(body).then((_) {
-      if (!context.mounted) return;
-      DelightToastShow.showToast(
-        context: context,
-        text: "Sign Up Success",
-        icon: Icons.check,
-      );
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => LoginPage(email: body.email ?? ''),
-        ),
-        (Route<dynamic> route) => false,
-      );
-    }).catchError((error) {
-      dev.log("Failed to register: $error");
-      if (!context.mounted) return;
-      DelightToastShow.showToast(
-        context: context,
-        text: 'Server error 😐',
-        icon: Icons.error,
-      );
-    }).whenComplete(() => setState(() => isLoading = true));
-  }
+class RegisterPage extends GetView<RegisterController> {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +30,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              _headerAvata(),
+              _headerAvata(context),
               _headerTitle(),
               const SizedBox(height: 20),
               _formSignUp(),
@@ -104,11 +39,11 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20),
               AppElevatedButton(
                 text: "Register",
-                isDisable: isLoading,
-                onPressed: () => onSubmit(context),
+                isDisable: controller.isLoading.value,
+                onPressed: () => controller.onSubmit(context),
               ),
               const SizedBox(height: 10),
-              _linkLogin(),
+              _linkLogin(context),
             ],
           ),
         ),
@@ -116,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _linkLogin() {
+  Widget _linkLogin(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -158,37 +93,36 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget _formSignUp() {
     return Form(
-      key: formKey,
+      key: controller.formKey,
       child: Column(
         children: [
           AppTextField(
-            controller: usernameController,
+            controller: controller.usernameController,
             hintText: "Username",
             textInputAction: TextInputAction.next,
             validator: Validator.required,
           ),
           const SizedBox(height: 20),
           AppTextField(
-            controller: emailController,
+            controller: controller.emailController,
             hintText: "Email",
             textInputAction: TextInputAction.next,
             validator: Validator.email,
           ),
           const SizedBox(height: 20),
           AppTextFieldPassword(
-            controller: passwordController,
+            controller: controller.passwordController,
             hintText: "Pass",
             textInputAction: TextInputAction.next,
             validator: Validator.password,
           ),
           const SizedBox(height: 20),
           AppTextFieldPassword(
-            onChanged: (_) => setState(() {}),
-            controller: confirmPassController,
+            controller: controller.confirmPassController,
             hintText: "Confirm password",
             textInputAction: TextInputAction.done,
-            validator:
-                Validator.confirmPassword(passwordController.text.trim()),
+            validator: Validator.confirmPassword(
+                controller.passwordController.text.trim()),
           ),
         ],
       ),
@@ -202,20 +136,24 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _headerAvata() {
+  Widget _headerAvata(BuildContext context) {
     return GestureDetector(
-      onTap: getImageFromGallery,
-      child: CircleAvatar(
-        radius: MediaQuery.of(context).size.width * 0.15,
-        backgroundImage: fileAvatar != null
-            ? FileImage(fileAvatar ?? File(''))
-            : const AssetImage("assets/images/default_ava.jpg")
-                as ImageProvider,
-      ),
+      onTap: controller.getImageFromGallery,
+      child: Obx(() => CircleAvatar(
+          radius: MediaQuery.of(context).size.width * 0.15,
+          backgroundImage: controller.fileAvatar.value != null
+              ? FileImage(controller.fileAvatar.value!)
+              : const AssetImage("assets/images/default_ava.jpg")
+                  as ImageProvider),)
+      
+      
     );
   }
+}
+
+
 
   //nguyenvantuan487t@gmail.com pass 1234567
   //vtinter@gmail.com pass 1234567
   //cun@gmail.com pass 1234567
-}
+

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:vtinter_chat/components/delight_toast_show.dart';
-import 'package:vtinter_chat/pages/auth/login/screen/login_page.dart';
+import 'package:vtinter_chat/routes/app_routes.dart';
 import 'package:vtinter_chat/services/remote/auth_services.dart';
 import 'package:vtinter_chat/services/remote/body/forgot_password_body.dart';
 
@@ -26,8 +26,7 @@ class ForgotPasswordController extends GetxController {
         context: context,
         text: "Check your email and change pass",
       );
-
-      Get.offAll(() => const LoginPage(), arguments: body.email);
+      Get.offAllNamed(PageName.loginPage, arguments: {'email': body.email});
     }).catchError((error) {
       FirebaseAuthException a = error as FirebaseAuthException;
       if (!context.mounted) return;
