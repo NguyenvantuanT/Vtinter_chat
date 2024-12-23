@@ -7,16 +7,25 @@ import 'package:vtinter_chat/services/remote/mess_services.dart';
 
 class HomeController extends GetxController {
   final messageController = TextEditingController();
-  ScrollController scrollController = ScrollController();
+  late ScrollController scrollController;
   MessServices messServices = MessServices();
   FocusNode messFocus = FocusNode();
 
+  @override
+  void onInit() {
+    super.onInit();
+    scrollController = ScrollController();
+  }
+
   void scrollScreen() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent + 100.0,
-      duration: const Duration(milliseconds: 2600),
-      curve: Curves.easeOut,
-    );
+   
+      scrollController.animateTo(
+        scrollController.position.maxScrollExtent + 100.0,
+        duration:
+            const Duration(milliseconds: 300), 
+        curve: Curves.easeOut,
+      );
+    
   }
 
   void delete(String? docId) {
@@ -45,8 +54,15 @@ class HomeController extends GetxController {
       ..id = '${DateTime.now().millisecondsSinceEpoch}'
       ..text = messageController.text.trim()
       ..isRecalled = false;
-    scrollScreen();
-    messServices.addMess(mess);
+
     messageController.clear();
+    messServices.addMess(mess);
+    scrollScreen();
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
   }
 }
