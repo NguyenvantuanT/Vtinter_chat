@@ -61,4 +61,10 @@ class RegisterController extends GetxController {
       );
     }).whenComplete(() => isLoading.value = true);
   }
+
+
+  void navigatorLoginPage() {
+    Get.toNamed(PageName.loginPage);
+  }
+  
 }

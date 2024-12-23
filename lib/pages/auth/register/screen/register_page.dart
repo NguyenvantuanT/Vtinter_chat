@@ -77,7 +77,7 @@ class RegisterPage extends GetView<RegisterController> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: controller.navigatorLoginPage,
           behavior: HitTestBehavior.translucent,
           child: const Padding(
             padding: EdgeInsets.all(4.0),
