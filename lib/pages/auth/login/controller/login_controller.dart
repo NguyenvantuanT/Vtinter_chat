@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   AccountServices accountServices = AccountServices();
   RxBool isLoading = false.obs;
   final arguments = Get.arguments as Map? ?? {};
+
   @override
   void onInit() {
     super.onInit();
@@ -24,29 +25,47 @@ class LoginController extends GetxController {
     Get.toNamed(PageName.forgotPasswordPage);
   }
 
-   void navigaToRegisterPage() {
+  void navigaToRegisterPage() {
     Get.toNamed(PageName.registerPage);
   }
 
   Future<void> submitLogin(BuildContext context) async {
     if (formKey.currentState?.validate() == false) return;
+
     isLoading.value = true;
+
     LoginBody body = LoginBody()
       ..email = emailController.text.trim()
       ..password = passController.text.trim();
 
-    authServices.login(body).then((_) {
-      accountServices.getUser(body.email ?? '').then((_) {
+    authServices.login(body).then((value) {
+      accountServices.getUser(body.email ?? "").then((_) {
         if (!context.mounted) return;
+        DelightToastShow.showToast(
+          context: context,
+          text: "Login Success 😂",
+        );
         Get.offAllNamed(PageName.mainPage);
-      }).catchError((onError) {});
+      });
     }).catchError((onError) {
-      if (!context.mounted) return;
-      DelightToastShow.showToast(context: context, text: "Lofgin fail");
-      accountServices.getUser(body.email ?? '').then((_) {
+      if (context.mounted) {
+        accountServices.getUser(body.email ?? "").then((_) {
         if (!context.mounted) return;
+        DelightToastShow.showToast(
+          context: context,
+          text: "Login Success 😂",
+        );
         Get.offAllNamed(PageName.mainPage);
-      }).catchError((onError) {});
-    }).whenComplete(() => isLoading.value = true);
+      });
+
+      }
+    }).whenComplete(() => isLoading.value = false);
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passController.dispose();
+    super.onClose();
   }
 }

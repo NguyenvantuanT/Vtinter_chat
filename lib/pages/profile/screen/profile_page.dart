@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field.dart';
 import 'package:vtinter_chat/pages/profile/controller/profile_controller.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
+// import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:vtinter_chat/utils/validator.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class ProfilePage extends GetView<ProfileController> {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(20.0)),
                             child: CachedNetworkImage(
-                              imageUrl: SharedPrefs.user?.avatar ?? "",
+                              imageUrl: GetStorageLocal.user?.avatar ?? "",
                               fit: BoxFit.cover,
                               width: radius * 2,
                               height: radius * 2,

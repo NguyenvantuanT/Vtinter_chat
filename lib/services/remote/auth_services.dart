@@ -16,11 +16,10 @@ abstract class ImplAuthServices {
 class AuthServices implements ImplAuthServices {
   @override
   Future<void> login(LoginBody body) async {
-      print(body);
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: body.email ?? '',
-      password: body.password ?? '',
-    );
+     await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: body.email ?? '',
+        password: body.password ?? '',
+      );
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:vtinter_chat/firebase_options.dart';
 import 'package:vtinter_chat/routes/app_routes.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +16,8 @@ void main() async {
     statusBarBrightness: Brightness.light,
     statusBarIconBrightness: Brightness.dark,
   ));
-  await SharedPrefs.initialise();
+  // await SharedPrefs.initialise();
+  await GetStorageLocal.initialise();
   runApp(const MainApp(initialRoute: PageName.splashPage));
 }
 

@@ -7,7 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:vtinter_chat/components/delight_toast_show.dart';
 import 'package:vtinter_chat/models/user_model.dart';
 import 'package:vtinter_chat/routes/app_routes.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
+// import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/services/remote/account_services.dart';
 import 'package:vtinter_chat/services/remote/storage_services.dart';
 
@@ -18,10 +19,10 @@ class ProfileController extends GetxController {
   AccountServices accountServices = AccountServices();
   ImagePicker picker = ImagePicker();
   final formKey = GlobalKey<FormState>();
-  Rx<File?> fileAvatar = Rx<File?>(null);
+  Rxn<File> fileAvatar = Rxn<File>();
   RxBool isLoading = false.obs;
   RxBool isButtonEnable = true.obs;
-  dynamic user = SharedPrefs.user ?? UserModel();
+  UserModel user = GetStorageLocal.user ?? UserModel();
 
   @override
   void onInit() {
@@ -32,11 +33,10 @@ class ProfileController extends GetxController {
   }
 
   void checkFormChanged() {
-  isButtonEnable.value = 
-    nameController.text != user.name ||
-    emailController.text != user.email ||
-    fileAvatar.value != null;
-}
+    isButtonEnable.value = nameController.text != user.name ||
+        emailController.text != user.email ||
+        fileAvatar.value != null;
+  }
 
   Future<void> pickAvatar() async {
     final XFile? file = await picker.pickImage(source: ImageSource.gallery);
@@ -47,16 +47,15 @@ class ProfileController extends GetxController {
   Future<void> updateProfile(BuildContext context) async {
     if (formKey.currentState?.validate() == false) return;
     isLoading.value = true;
-    String? avatarUrl;
-    if (fileAvatar.value != null) {
-      avatarUrl = await postImageServices.post(image: fileAvatar.value!);
-    }
+
     final body = UserModel()
       ..name = nameController.text.trim()
       ..email = emailController.text.trim()
-      ..avatar = avatarUrl;
+      ..avatar = fileAvatar.value != null
+          ? await postImageServices.post(image: fileAvatar.value!)
+          : user.avatar ?? "";
     accountServices.updateUser(body).then((_) {
-      SharedPrefs.user = body;
+      GetStorageLocal.user = body;
       if (!context.mounted) return;
       DelightToastShow.showToast(
         context: context,

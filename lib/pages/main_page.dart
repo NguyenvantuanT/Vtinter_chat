@@ -4,7 +4,8 @@ import 'package:vtinter_chat/components/app_zoom_drawer.dart';
 import 'package:vtinter_chat/pages/main/drawer/screen/drawer_page.dart';
 import 'package:vtinter_chat/pages/main/home/screen/home_page.dart';
 import 'package:vtinter_chat/pages/main_page_controller.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
+// import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,8 @@ class MainPage extends GetView<MainPageController> {
           leftPressed: controller.toggleDrawer,
           rightPressed: () {},
           title: "Home",
-          avatar: SharedPrefs.user?.avatar ?? '',
+          // avatar: SharedPrefs.user?.avatar ?? '',
+          avatar: GetStorageLocal.user?.avatar ?? "",
         ),
         body: AppZoomDrawer(
           controller: controller.zoomDrawerController.value,

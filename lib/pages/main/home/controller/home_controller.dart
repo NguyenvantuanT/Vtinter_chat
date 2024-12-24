@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vtinter_chat/components/app_dialog.dart';
 import 'package:vtinter_chat/models/messager_model.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
+// import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/services/remote/mess_services.dart';
 
 class HomeController extends GetxController {
@@ -18,14 +19,11 @@ class HomeController extends GetxController {
   }
 
   void scrollScreen() {
-   
-      scrollController.animateTo(
-        scrollController.position.maxScrollExtent + 100.0,
-        duration:
-            const Duration(milliseconds: 300), 
-        curve: Curves.easeOut,
-      );
-    
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent + 100.0,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 
   void delete(String? docId) {
@@ -49,8 +47,8 @@ class HomeController extends GetxController {
 
   void sendMessage() {
     MessagerModel mess = MessagerModel()
-      ..avatar = SharedPrefs.user?.avatar
-      ..createBy = SharedPrefs.user?.email
+      ..avatar = GetStorageLocal.user?.avatar
+      ..createBy = GetStorageLocal.user?.email
       ..id = '${DateTime.now().millisecondsSinceEpoch}'
       ..text = messageController.text.trim()
       ..isRecalled = false;

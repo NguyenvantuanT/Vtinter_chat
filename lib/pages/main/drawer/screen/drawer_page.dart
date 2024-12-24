@@ -3,7 +3,8 @@ import 'package:vtinter_chat/components/app_dialog.dart';
 import 'package:vtinter_chat/pages/main/drawer/controller/drawer_controller.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../../services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
+// import '../../../../services/local/shared_prefs.dart';
 
 class DrawerPage extends GetView<DrawerMainController> {
   const DrawerPage({super.key});
@@ -22,7 +23,8 @@ class DrawerPage extends GetView<DrawerMainController> {
           const Text('Welcome',
               style: TextStyle(color: AppColor.red, fontSize: 20.0)),
           Text(
-            SharedPrefs.user?.name ?? '',
+            // SharedPrefs.user?.name ?? '',
+            GetStorageLocal.user?.name ?? "",
             style: const TextStyle(
                 color: AppColor.brown,
                 fontSize: 16.8,

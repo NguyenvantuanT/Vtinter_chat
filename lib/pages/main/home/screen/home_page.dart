@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:vtinter_chat/models/messager_model.dart';
 import 'package:vtinter_chat/pages/main/home/controller/home_controller.dart';
 import 'package:vtinter_chat/pages/main/home/widgets/messages_group.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
+// import 'package:vtinter_chat/services/local/shared_prefs.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,8 @@ class HomePage extends GetView<HomeController> {
                     separatorBuilder: (_, __) => const SizedBox(height: 12.0),
                     itemBuilder: (context, index) {
                       MessagerModel mess = messagers.reversed.toList()[index];
-                      final isMe = mess.createBy == SharedPrefs.user?.email;
+                      final isMe = mess.createBy == GetStorageLocal.user?.email;
+                      // final isMe = mess.createBy == SharedPrefs.user?.email;
                       final isRecall = mess.isRecalled ?? false;
                       return MessagesGroup(
                         mess,

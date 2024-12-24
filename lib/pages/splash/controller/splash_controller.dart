@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:vtinter_chat/routes/app_routes.dart';
-import 'package:vtinter_chat/services/local/shared_prefs.dart';
+import 'package:vtinter_chat/services/local/get_storage_local.dart';
 
 class SplashController extends GetxController {
   @override
@@ -13,7 +13,7 @@ class SplashController extends GetxController {
 
   void _checkStatus() {
     Timer(const Duration(milliseconds: 2600), () {
-      if (SharedPrefs.isLogin) {
+      if (GetStorageLocal.isLogin) {
         Get.offAllNamed(PageName.mainPage);
       } else {
         Get.offAllNamed(PageName.loginPage);

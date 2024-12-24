@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:vtinter_chat/components/button/app_elevated_button.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field.dart';
 import 'package:vtinter_chat/components/text_field/app_text_field_password.dart';
-import 'package:vtinter_chat/pages/auth/login/screen/login_page.dart';
 import 'package:vtinter_chat/pages/auth/register/controller/register_controller.dart';
 import 'package:vtinter_chat/resource/themes/app_colors.dart';
 import 'package:vtinter_chat/utils/validator.dart';
@@ -57,8 +56,7 @@ class RegisterPage extends GetView<RegisterController> {
       children: [
         const Text("Alredy have accout"),
         GestureDetector(
-          onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const LoginPage())),
+          onTap: controller.navigatorLoginPage,
           behavior: HitTestBehavior.translucent,
           child: const Padding(
             padding: EdgeInsets.all(4.0),
