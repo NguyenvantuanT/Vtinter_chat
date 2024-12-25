@@ -9,7 +9,7 @@ import 'package:vtinter_chat/services/remote/body/login_body.dart';
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   AuthServices authServices = AuthServices();
   AccountServices accountServices = AccountServices();
   RxBool isLoading = false.obs;
@@ -30,42 +30,30 @@ class LoginController extends GetxController {
   }
 
   Future<void> submitLogin(BuildContext context) async {
-    if (formKey.currentState?.validate() == false) return;
-
+    if (formKey.currentState?.validate() == false) {
+      return;
+    }
     isLoading.value = true;
 
     LoginBody body = LoginBody()
       ..email = emailController.text.trim()
-      ..password = passController.text.trim();
+      ..password = passwordController.text;
 
-    authServices.login(body).then((value) {
-      accountServices.getUser(body.email ?? "").then((_) {
+    authServices.login(body).then((_) {
+      accountServices.getUser(body.email ?? '').then((_) {
         if (!context.mounted) return;
-        DelightToastShow.showToast(
-          context: context,
-          text: "Login Success 😂",
-        );
         Get.offAllNamed(PageName.mainPage);
-      });
+      }).catchError((onError) {});
     }).catchError((onError) {
-      if (context.mounted) {
-        accountServices.getUser(body.email ?? "").then((_) {
-        if (!context.mounted) return;
-        DelightToastShow.showToast(
-          context: context,
-          text: "Login Success 😂",
-        );
-        Get.offAllNamed(PageName.mainPage);
-      });
-
-      }
-    }).whenComplete(() => isLoading.value = false);
+      if (!context.mounted) return;
+      DelightToastShow.showToast(
+        context: context,
+        text: "Email or Password is wrong😐",
+      );
+    }).whenComplete(
+      () => isLoading.value = false,
+    );
   }
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    passController.dispose();
-    super.onClose();
-  }
+ 
 }

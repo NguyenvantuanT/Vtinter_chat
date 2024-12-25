@@ -108,7 +108,7 @@ class LoginPage extends GetView<LoginController> {
           ),
           const SizedBox(height: 20),
           AppTextFieldPassword(
-            controller: controller.passController,
+            controller: controller.passwordController,
             hintText: "Pass",
             textInputAction: TextInputAction.done,
             validator: Validator.password,

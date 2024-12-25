@@ -37,13 +37,13 @@ class RegisterController extends GetxController {
       if (fileAvatar.value != null) {
         avatarUrl = await postImageServices.post(image: fileAvatar.value!);
       }
-    ResigterBody body = ResigterBody()
+    RegisterBody body = RegisterBody()
       ..name = usernameController.text.trim()
       ..email = emailController.text.trim()
       ..password = emailController.text.trim()
       ..confirmPass = confirmPassController.text.trim()
       ..avatar = avatarUrl;
-    authServices.resigter(body).then((_) {
+    authServices.register(body).then((_) {
       if (!context.mounted) return;
       DelightToastShow.showToast(
         context: context,
